@@ -8,6 +8,8 @@ import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 public class SeleniumEmailUnreader {
     public static void main(String[] args) throws InterruptedException {
         // setting up the chrome driver
@@ -18,13 +20,14 @@ public class SeleniumEmailUnreader {
 
 
         // Open the gmail login page
-        driver.get("https://accounts.google.com/ServiceLogin?");
+        driver.get("http://mail.google.com");
+        driver.manage().timeouts().implicitlyWait(30, SECONDS);
 
         // logging into my account
-        driver.findElement(By.id("Email")).sendKeys("hizkiasnew@gmail.com");
-        driver.findElement(By.id("next")).click();
-        driver.findElement(By.id("Passwd")).sendKeys("here in my password");
-        driver.findElement(By.id("signIn")).click();
+        driver.findElement(By.xpath("//*[@id=\"identifierId\"]")).sendKeys("myEmail@gmail.com");
+        driver.findElement(By.xpath("//*[@id=\"identifierNext\"]/span/span")).click();
+        driver.findElement(By.xpath("//*[@id=\"password\"]/div[1]/div/div[1]/input")).sendKeys("myPassword");
+        driver.findElement(By.xpath("//*[@id=\"passwordNext\"]/span")).click();
 
         // Wait for some time until it loggs into the account
         Thread.sleep(5000);
@@ -58,7 +61,7 @@ public class SeleniumEmailUnreader {
 
         markAsUnreadOption.click();
 
-
+        driver.close();
 
     }
 }
